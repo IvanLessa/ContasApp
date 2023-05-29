@@ -30,63 +30,68 @@
 @using (Html.BeginForm())
 {
         <div class="row mb-2">
-            <div class="col-md-3">
-            @Html.TextBoxFor(model => model.DataInicio,
-                new { @class = "form-control", @type = "date" })
+            <div class="col-md-2">
+            @Html.TextBoxFor(model => model.DataInicio, "{0:yyyy-MM-dd}",
+                    new { @class = "form-control", @type = "date" })
                 <div class="text-danger">
                 @Html.ValidationMessageFor(model => model.DataInicio)
                 </div>
             </div>
-            <div class="col-md-3">
-            @Html.TextBoxFor(model => model.DataFim,
-                new { @class = "form-control", @type = "date" })
+            <div class="col-md-2">
+            @Html.TextBoxFor(model => model.DataFim, "{0:yyyy-MM-dd}",
+            new { @class = "form-control", @type = "date" })
                 <div class="text-danger">
                 @Html.ValidationMessageFor(model => model.DataFim)
                 </div>
             </div>
             <div class="col-md-6">
-                <input type="submit" class="btn btn-success" value="Realizar Pesquisa"/>
+                <input type="submit" class="btn btn-success" value="Realizar Pesquisa" />
             </div>
         </div>
 }
 
+@** Exibindo os resultados da consulta *@
 @if (Model != null && Model.Resultado?.Count > 0)
 {
-    <div class="table-responsive">
-        <table id="consulta_contas" class="table table-sm table-hover table-striped">
-            <thead>
-                <tr>
-                    <th>Nome da conta</th>
-                    <th>Data</th>
-                    <th>Valor</th>
-                    <th>Categoria</th>
-                    <th>Tipo</th>
-                    <th>Observacoes</th>
-                    <th width="140">Operações</th>
-                </tr>
-            </thead>
-            <tbody>
+        <div class="table-responsive">
+            <table id="consulta_contas" class="table table-sm table-hover table-striped">
+                <thead>
+                    <tr>                    
+                        <th>Data</th>
+                        <th>Nome da conta</th>
+                        <th>Valor</th>
+                        <th>Categoria</th>
+                        <th>Tipo</th>
+                        <th>Observacoes</th>
+                        <th width="140">Operações</th>
+                    </tr>
+                </thead>
+                <tbody>
                 @foreach (var item in Model.Resultado)
                 {
-                        <tr>
-                            <td>@item.Nome</td>
-                            <td>@item.Data?.ToString("dd/MM/yyyy")</td>
-                            <td>@item.Valor?.ToString("c")</td>
-                            <td>@item.Categoria</td>
-                            <td>@item.Tipo</td>
-                            <td>@item.Observacoes</td>
-                            <td>
-                                <a href="/Contas/Edicao/@item.Id" class="btn btn-outline-primary btn-sm">Editar</a>
-                                <a href="/Contas/Exclusao/@item.Id" 
-                                 onclick="return confirm ('Deseja realmente excluir {@item.Nome}?')"
-                                 class="btn btn-outline-danger btn-sm">Excluir</a>
-                            </td>
-                        </tr>
+                            <tr>                        
+                                <td>@item.Data?.ToString("dd/MM/yyyy")</td>
+                                <td>@item.Nome</td>
+                                <td>@item.Valor?.ToString("c")</td>
+                                <td>@item.Categoria</td>
+                                <td>@item.Tipo</td>
+                                <td>@item.Observacoes</td>
+                                <td>
+                                    <a href="/Contas/Edicao/@item.Id" 
+                                class="btn btn-outline-primary btn-sm">
+                                        Editar
+                                    </a>
+                                    <a href="/Contas/Exclusao/@item.Id"
+                                onclick="return confirm('Deseja realmente excluir a conta selecionada?');"
+                                class="btn btn-outline-danger btn-sm">
+                                        Excluir
+                                    </a>
+                                </td>
+                            </tr>
                 }
-            </tbody>
-        </table>
-    </div>
-
+                </tbody>
+            </table>
+        </div>
 }
 
 
